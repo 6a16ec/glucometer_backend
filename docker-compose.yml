@@ -1,0 +1,22 @@
+version: "3"
+services:
+  postgres:
+    container_name: app_postgres
+    restart: unless-stopped
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: "${POSTGRES_DB}"
+      POSTGRES_USER: "${POSTGRES_USER}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+    ports:
+      - "${POSTGRES_PORT}:${POSTGRES_PORT}"
+  api2:
+    container_name: app_api
+    restart: unless-stopped
+    env_file:
+      - .env
+    build: ./
+    volumes:
+      - .:/code
+    ports:
+      - "80:80"
